@@ -5,15 +5,27 @@
 
 
 void roll(int speed){
-  if(speed>0){
-    analogWrite(drivePWM1, 100);
-    analogWrite(drivePWM2, 0);
+  if(speed>10){
+      if(speed>100){
+        analogWrite(drivePWM1, 100);
+        analogWrite(drivePWM2, 0);
+      }
+      else{
+        analogWrite(drivePWM1, speed);
+        analogWrite(drivePWM2, 0);
+      }
   }
-  else if(speed<0){
-    analogWrite(drivePWM1, 0);
-    analogWrite(drivePWM2, 100);
+  else if(speed<-10){
+    if(speed< -100){
+        analogWrite(drivePWM1, 0);
+        analogWrite(drivePWM2, 100);
+      }
+      else{
+        analogWrite(drivePWM1, 0);
+        analogWrite(drivePWM2, -speed);
+      }
   }
-  else if(speed==0){
+  else if((speed < 10) && (speed > -10)){
     analogWrite(drivePWM1, 0);
     analogWrite(drivePWM2, 0);
   }
