@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            BB8
+        </title>
+    </head>
+    <body style="text-align: center;">
+        <h1 style="font-family: Arial, Helvetica, sans-serif;text-align: center;">
+            BB8 Controls
+        </h1>
+        <div>
+            <canvas id="canvas" width="800" height="800" style="background-color: lightyellow;border-radius: 100%;border: solid orange;">
+        </div>
+        </canvas>
+        <p id="s">speed : 0</p>
+        <p id="a">angle : 0</p>
+
+    <style>
+        body{
+            overscroll-behavior-y: contain;
+        }
+    </style>
+        
+    <script>
+        var canvas=document.getElementById("canvas");
+        var mouseX,mouseY,circleX,circleY,speed,angle
+        var mousedown=false
+        var joystickSize=canvas.clientWidth/10
+        canvas.addEventListener("mousedown",mouseDown)
+        document.addEventListener("mousemove", mouseMove);
+        document.addEventListener("mouseup", mouseUp);
+
+        canvas.addEventListener("touchstart",mouseDown);
+        document.addEventListener("touchmove", touchMove);
+        document.addEventListener("touchend", mouseUp);
+        
+        function sendInfo(){
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:5000");
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            const body = JSON.stringify({
+                body: `                                                     speed : ${speed}             ,angle : ${angle}`,
+            });
+            xhr.onload = () => {
+                if (xhr.readyState == 4 && xhr.status == 201) {
+                    console.log(JSON.parse(xhr.responseText));
+                } else {
+                    console.log(`Error: ${xhr.status}`);
+                }
+            };
+            xhr.send(body);
+        }
+
+        mouseUp();
+
+        function print(){
+            document.getElementById("s").innerHTML = "speed : "+Math.round(speed*100)+" %";
+            document.getElementById("a").innerHTML = "angle : "+Math.round(angle*100)+" %";
+            sendInfo();
+        }
+
+        function mouseDown(){
+            mousedown=true
+        }
+
+        function mouseMove(event) {
+            mouseX=event.clientX-canvas.getBoundingClientRect().left;
+            mouseY=event.clientY-canvas.getBoundingClientRect().top;
+            Move();
+        }
+
+        function touchMove(event){
+            mouseX=event.touches[0].clientX-canvas.getBoundingClientRect().left;
+            mouseY=event.touches[0].clientY-canvas.getBoundingClientRect().top;
+            Move();
+        }
+
+        function Move(){
+            if (mousedown==true){
+                draw=canvas.getContext("2d");
+                draw.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
+                draw.beginPath();
+                if ((mouseX-(canvas.clientWidth/2))**2+(mouseY-(canvas.clientHeight/2))**2<(canvas.clientWidth/2-joystickSize)**2){
+                    circleX=mouseX
+                    circleY=mouseY
+                    draw.arc(circleX, circleY, joystickSize, 0, 2*Math.PI);
+                }
+                else{
+                    angle=-Math.atan2(mouseX-(canvas.clientWidth/2),mouseY-(canvas.clientHeight/2))+(Math.PI/2)
+                    circleX=Math.cos(angle)*(canvas.clientWidth/2-joystickSize)+(canvas.clientWidth/2)
+                    circleY=Math.sin(angle)*(canvas.clientWidth/2-joystickSize)+(canvas.clientHeight/2)
+                    draw.arc(circleX, circleY, joystickSize, 0, 2*Math.PI)
+                }
+                draw.fill();
+                if (Math.abs(mouseX-(canvas.clientWidth/2))<Math.abs(mouseY-(canvas.clientHeight/2))){
+                    speed=(canvas.clientHeight/2-circleY)/(canvas.clientHeight/2-joystickSize)
+                    angle=0
+                }
+                else {
+                    speed=0
+                    angle=(canvas.clientWidth/2-circleX)/(canvas.clientWidth/2-joystickSize)
+                    
+                }
+            print()
+            }
+        }
+
+        function mouseUp() {
+            mousedown=false
+            mouseX=0
+            mouseY=0
+            circleX=0
+            circleY=0
+            speed=0
+            angle=0
+            draw=canvas.getContext("2d");
+            draw.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
+            draw.beginPath();
+            draw.arc(canvas.clientWidth/2, canvas.clientHeight/2, joystickSize, 0, 2*Math.PI);
+            draw.fill();
+            print()
+            
+        }
+    </script>
+    </body>
+</html>
