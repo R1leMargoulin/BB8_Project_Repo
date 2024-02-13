@@ -15,7 +15,7 @@ void turn(int dir){
         int pot = analogRead(potPin);
         analogWrite(drivePWM1, 0);
         analogWrite(drivePWM2, 30);
-        while (pot>437)
+        while (pot>490)
         {
          pot = analogRead(potPin);
         }     
@@ -26,7 +26,7 @@ void turn(int dir){
         int pot = analogRead(potPin);
         analogWrite(drivePWM1, 30);
         analogWrite(drivePWM2, 0);
-        while (pot<470)
+        while (pot<530)
         {
          pot = analogRead(potPin);
         }
@@ -35,13 +35,14 @@ void turn(int dir){
   }
   else{
         int pot = analogRead(potPin);
-        while (pot> 440 || pot < 450){
-            if (pot < 440)
+        while (pot< 510 || pot > 520){
+            pot = analogRead(potPin);
+            if (pot < 510)
             {
                 analogWrite(drivePWM1, 30); //left
                 analogWrite(drivePWM2, 0);
             }
-            if (pot > 450)
+            if (pot > 520)
             {
                 analogWrite(drivePWM1, 0); 
                 analogWrite(drivePWM2, 30); //right
