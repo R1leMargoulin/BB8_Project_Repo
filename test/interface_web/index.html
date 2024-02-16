@@ -25,6 +25,8 @@
     <script>
         var canvas=document.getElementById("canvas");
         var mouseX,mouseY,circleX,circleY,speed,angle
+        var date = new Date
+        var lastRequest = new Date
         var mousedown=false
         var joystickSize=canvas.clientWidth/10
         canvas.addEventListener("mousedown",mouseDown)
@@ -36,6 +38,7 @@
         document.addEventListener("touchend", mouseUp);
         
         function sendInfo(){
+            lastRequest = new Date()
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "http://localhost:5000");
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -57,7 +60,6 @@
         function print(){
             document.getElementById("s").innerHTML = "speed : "+Math.round(speed*100)+" %";
             document.getElementById("a").innerHTML = "angle : "+Math.round(angle*100)+" %";
-            sendInfo();
         }
 
         function mouseDown(){
@@ -102,7 +104,11 @@
                     angle=(canvas.clientWidth/2-circleX)/(canvas.clientWidth/2-joystickSize)
                     
                 }
+            date = new Date()
             print()
+            if (Math.abs(date.getMilliseconds()-lastRequest.getMilliseconds())>250){
+                sendInfo()
+                }
             }
         }
 
