@@ -23,12 +23,13 @@
     </style>
         
     <script>
+        var sleepSetTimeout_ctrl;
         var canvas=document.getElementById("canvas");
         var mouseX,mouseY,circleX,circleY,speed,angle
-        var date = new Date
-        var lastRequest = new Date
-        var mousedown=false
-        var joystickSize=canvas.clientWidth/10
+        var date = new Date;
+        var lastRequest = new Date;
+        var mousedown=false;
+        var joystickSize=canvas.clientWidth/10;
         canvas.addEventListener("mousedown",mouseDown)
         document.addEventListener("mousemove", mouseMove);
         document.addEventListener("mouseup", mouseUp);
@@ -36,15 +37,18 @@
         canvas.addEventListener("touchstart",mouseDown);
         document.addEventListener("touchmove", touchMove);
         document.addEventListener("touchend", mouseUp);
+
+        function sleep(ms){
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
         
         function sendInfo(){
             lastRequest = new Date()
             const xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost:5000");
+            xhr.open("POST", "http://192.168.4.1:5000");
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             const body = JSON.stringify({
-                body: `                                                     speed : ${speed}             ,angle : ${angle}`,
-            });
+                body: `"speed" : ${speed}, "angle" : ${angle}`});
             xhr.onload = () => {
                 if (xhr.readyState == 4 && xhr.status == 201) {
                     console.log(JSON.parse(xhr.responseText));
@@ -106,9 +110,9 @@
                 }
             date = new Date()
             print()
-            if (Math.abs(date.getMilliseconds()-lastRequest.getMilliseconds())>250){
-                sendInfo()
-                }
+            // if (Math.abs(date.getMilliseconds()-lastRequest.getMilliseconds())>100){
+            //     sendInfo()
+            //     }
             }
         }
 
@@ -128,6 +132,14 @@
             print()
             
         }
+        async function run(){
+            while(true){
+                sendInfo()
+                await sleep(100)
+            }
+        }
+        run()
+
     </script>
     </body>
 </html>
