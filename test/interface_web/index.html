@@ -99,21 +99,14 @@
                     draw.arc(circleX, circleY, joystickSize, 0, 2*Math.PI)
                 }
                 draw.fill();
-                if (Math.abs(mouseX-(canvas.clientWidth/2))<Math.abs(mouseY-(canvas.clientHeight/2))){
-                    speed=(canvas.clientHeight/2-circleY)/(canvas.clientHeight/2-joystickSize)
-                    angle=0
-                }
-                else {
-                    speed=0
-                    angle=(canvas.clientWidth/2-circleX)/(canvas.clientWidth/2-joystickSize)
-                    
+                speed=(canvas.clientHeight/2-circleY)/(canvas.clientHeight/2-joystickSize)
+                angle=(canvas.clientWidth/2-circleX)/(canvas.clientWidth/2-joystickSize)
                 }
             date = new Date()
             print()
             // if (Math.abs(date.getMilliseconds()-lastRequest.getMilliseconds())>100){
             //     sendInfo()
             //     }
-            }
         }
 
         function mouseUp() {
