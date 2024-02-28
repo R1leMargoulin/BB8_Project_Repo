@@ -42,10 +42,10 @@ void BB8::move(){
     else{
         this->roll(0);
     }
-    if(this->commandState[1] >= 0.4){
+    if(this->commandState[1] <= -0.4){
         this->balance(1);
     }
-    else if(this->commandState[1] <= -0.4){
+    else if(this->commandState[1] >= 0.4){
         this->balance(-1);
     }
     else{
@@ -69,7 +69,7 @@ void BB8::updateFromSerial(){
         }
     }
     for(int k=0 ;k<=t-1 ;k++){
-        Serial.println(strArray[k]);
+        //Serial.println(strArray[k]);
         this->commandState[k] = strArray[k].toFloat();
     }
 }
@@ -125,7 +125,8 @@ BB8 robot = BB8();
 
 void setup()
 {
-    Serial.begin(9600);
+    Serial.begin(115200);
+    Serial.setTimeout(100);
     pinMode(STOP, OUTPUT);
     pinMode(LEFT, OUTPUT);
     pinMode(RIGHT, OUTPUT);
@@ -143,13 +144,12 @@ void setup()
 
 
 
-//data format: [avant,droite] donc [20, -15] balance a gauche en avancant
+//data format: [avant,gauche] donc [O.8, 0.5] balance a gauche en avancant
 
 void loop()
 {
-    while (Serial.available()){
-        //Serial.println(robot.get_commandState()[0]);
+        Serial.println("a");
         robot.updateFromSerial();
         robot.move();
-    }
+        //delay(100);
 }
