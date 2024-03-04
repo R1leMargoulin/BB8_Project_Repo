@@ -93,13 +93,13 @@ void BB8::roll(int speed){
         }
     }
     else if (speed < 0){//rear
-        if(speed< -100){
+        if(abs(speed)> 100){
             analogWrite(MainDrivePWM1, 0);
             analogWrite(MainDrivePWM2, 100);
         }
         else{
             analogWrite(MainDrivePWM1, 0);
-            analogWrite(MainDrivePWM2, -speed);
+            analogWrite(MainDrivePWM2, abs(speed));
         }
     }
     else{//stop
@@ -120,13 +120,13 @@ void BB8::balance(int speed){
       }
     }
     else if (speed < 0){//left
-        if(speed>100){
+        if(abs(speed)>100){
             analogWrite(BalanceDrivePWM1, 0);
             analogWrite(BalanceDrivePWM2, 50);
         }
         else{
             analogWrite(BalanceDrivePWM1, 0);
-            analogWrite(BalanceDrivePWM2, speed);
+            analogWrite(BalanceDrivePWM2, abs(speed));
         }
     }
     else{ //stop
