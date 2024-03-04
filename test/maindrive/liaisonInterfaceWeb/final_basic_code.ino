@@ -40,20 +40,20 @@ BB8::~BB8()
 }
 
 void BB8::move(){ //TODO: Passer en lineaire ou exponentiel/logarithmique pour le joystick
-    if(this->commandState[0] >= 0.4){
-        this->roll(20);
+    if(this->commandState[0] >= 0.2){
+        this->roll(this->commandState[0]*50); //pourcentage *100 /2
     }
-    else if(this->commandState[0] <= -0.4){
-        this->roll(-20);
+    else if(this->commandState[0] <= -0.2){
+        this->roll(this->commandState[0]*50);
     }
     else{
         this->roll(0);
     }
-    if(this->commandState[1] <= -0.4){
-        this->balance(20);// tester a 30
+    if(this->commandState[1] <= -0.2){
+        this->balance(this->commandState[1]*40);// tester a 30
     }
-    else if(this->commandState[1] >= 0.4){
-        this->balance(-20);//tester a 30
+    else if(this->commandState[1] >= 0.2){
+        this->balance(this->commandState[1]*40);//tester a 30
     }
     else{
         this->balance(0);
