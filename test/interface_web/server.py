@@ -39,7 +39,7 @@ def query_example():
 @app.after_request
 def after(response):
     
-    robot.msg = str(robot.x)+","+str(robot.y)+",\n"
+    robot.msg = "<"+str(robot.x)+","+str(robot.y)+">" # "<" is the beginning of the message "," is the separator and ">" is the end of the message
     print(f"sending: {robot.msg}")   
     robot.ser.write(robot.msg.encode())
     return response
