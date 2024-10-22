@@ -79,3 +79,9 @@ l’html se trouve dans le repo dans : **/test/maindrive/interface_web/intex.htm
 - le programme python servant d’API, qui recoit les requêtes de la page web, fait el traitement et envoie les commandes en Serial à l’Arduino.
 ce programme python pour le remplacer doit se trouver à la racine de l’utilisateur bb8 (normalement). Il doit garder son nom sinon la procédure de lancement au démarrage finira en erreur.
 il se trouve dans le github dans :  **/test/maindrive/interface_web/server.py**
+
+# Architecture de controle
+Voici un schéma de l'architecture pour aider à visualiser le processus:
+![BB8_global_schema_rogne](https://github.com/user-attachments/assets/65465662-120b-4446-85ef-d05efff853ec)
+
+vous avez en 1 une demande du navigateur web de la machine utilisateur au serveur web, le serveur web envoie la page en 2, puis des requètes sont envoyés depuis la page à l'API en 3. L'API va ensuite via Serial donner des information de controle à l'arduino en 4. Pour finir l'Arduino va piloter les moteurs gràce à ces informations en PWM en 5.
