@@ -20,6 +20,8 @@ J’avais fait des derniers tests sur le robot qui n’ont pas marché, il va fa
 
 Pour un pilotage optimal vous devez évidemment refermer la sphère (d’ou le problème pour arreter le robot il faut réouvrir la sphère c’est au moins 4 vis à dévisser en même temps qu’il roule, faites bien attention, que le robot se casse est une chose, mais évitez de vous blesser).
 
+- Autre problème : La tête ne tient pas super bien, j'ai jugé ce problème secondaire, il faudrait se débrouiller pour mettre des aimants plus puissants. Vu qu'on a imprimé avec des matériaux différents, plus dense (les impressions MJF sont remplis a 100% naturellement) les aimants ne suivent pas bien qu'ils soient déja très puissants, si vous en lachez deux par mégarde un peu éloignés mais suffisament pour s'attirer ils s'entrebriseront.
+
 # Guide plus technique
 
 pour se connecter une fois le robot allumé, la commande sera:
@@ -28,7 +30,7 @@ pour se connecter une fois le robot allumé, la commande sera:
 ssh bb8@192.168.4.1
 ```
 
-(normalement c’est ca
+(normalement c’est ca)
 
 envoyez un mail à [erwan.martin666@gmail.com](mailto:erwan.martin666@gmail.com) afin d’avoir le mot de passe root du bb8.
 
